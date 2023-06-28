@@ -5,14 +5,26 @@ import { MailOptions } from "nodemailer/lib/json-transport";
 export class Emailer {
   private readonly transporter: nodemailer.Transporter;
 
-  constructor() {
+//   constructor() {
+//     this.transporter = nodemailer.createTransport({
+//       service: "outlook",
+//       auth: {
+//         user: process.env.MAILUSER,
+//         pass: process.env.MAILPASSWORD,
+//         // user:'lanjohn@outlook.com',
+//         // pass:'hamqmmnjnpbqymex',
+//       },
+//     });
+//   }
+
+  constructor(user: string, pass: string) {
     this.transporter = nodemailer.createTransport({
       service: "outlook",
       auth: {
-        // user: process.env.GMAIL_USER,
-        // pass: process.env.GMAIL_PASSWORD,
-        user:'lanjohn@outlook.com',
-        pass:'hamqmmnjnpbqymex',
+        user: user,
+        pass: pass,
+        // user:'lanjohn@outlook.com',
+        // pass:'hamqmmnjnpbqymex',
       },
     });
   }
@@ -38,14 +50,17 @@ export class Emailer {
 // Usage Demo
 //
 
-// const emailer = new Emailer();
+let user = process.env.MAILUSER as string;
+let pass = process.env.MAILPASSWORD as string;
 
-// let receipiant = 'johnlan@gmail.com';
-// let subject = 'Your Subject Here';
-// let text = "Text version body: Welcome to the our website";
-// let htmlBody = `
-//   <h1>HTML version body!</h1>
-//   <p>We're glad you've decided to join us. We hope you find everything you're looking for here and enjoy using our site.</p>
-// `;
+const emailer = new Emailer(user, pass);
 
-// emailer.sendEmailTo(receipiant,subject,text,htmlBody)
+let receipiant = 'johnlan@gmail.com';
+let subject = 'Your Subject Here new';
+let text = "Text version body: Welcome to the our website";
+let htmlBody = `
+  <h1>HTML version body!</h1>
+  <p>We're glad you've decided to join us. We hope you find everything you're looking for here and enjoy using our site.</p>
+`;
+
+emailer.sendEmailTo(receipiant,subject,text,htmlBody)
